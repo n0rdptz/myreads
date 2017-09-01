@@ -3,15 +3,21 @@ import PropTypes from 'prop-types';
 
 class Book extends Component {
   static propTypes = {
+    book: PropTypes.object.isRequired
   };
 
   render() {
+    const book = this.props.book;
+
     return (
       <div className="book">
         <div className="book-top">
-          <div className="book-cover"></div>
+          <div
+            className="book-cover"
+            style={{backgroundImage: `url(${book.imageLinks.thumbnail})`}}>
+          </div>
           <div className="book-shelf-changer">
-            <select>
+            <select value={book.shelf}>
               <option value="none" disabled>Move to...</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
@@ -20,8 +26,12 @@ class Book extends Component {
             </select>
           </div>
         </div>
-        <div className="book-title"></div>
-        <div className="book-authors"></div>
+        <div className="book-title">{book.title}</div>
+        <div className="book-authors">
+          {book.authors.map(author => (
+            <div>{author}</div>
+          ))}
+        </div>
       </div>
     );
   }
