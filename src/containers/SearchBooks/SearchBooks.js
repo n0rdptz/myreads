@@ -3,7 +3,7 @@ import Book from '../../components/Book/Book';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as BooksAPI from '../../utils/BooksAPI';
-import searchTerms from '../../configs/searchTerms';
+import appConfig from '../../configs/appConfig';
 
 class SearchBooks extends Component {
   state = {
@@ -15,28 +15,41 @@ class SearchBooks extends Component {
     onShelfChange: PropTypes.func.isRequired
   };
 
-  updateQuery(q) {
+  /**
+   * @description Check that search query string mathes one of the allowed terms
+   * @param {string} q - search query string
+   */
+  checkQuery(q) {
     const query = q.trim();
+
+    if (appConfig.searchTerms.includes(query)) {
+      this.searchRequest(query);
+    }
+  };
+
+  /**
+   * @description Send search request
+   * @param {string} query - search query string
+   */
+  searchRequest(query) {
     const booksOnShelves = this.props.books;
 
-    if (searchTerms.includes(query)) {
-      BooksAPI
-        .search(query, 10)
-        .then(result => {
-          const books = result.map(entity => {
-            const bookOnShelves = booksOnShelves.filter(item => {
-              return item.id === entity.id;
-            });
-
-            return bookOnShelves.length > 0 ? bookOnShelves[0] : entity;
+    BooksAPI
+      .search(query, 10)
+      .then(result => {
+        const books = result.map(entity => {
+          const bookOnShelves = booksOnShelves.filter(item => {
+            return item.id === entity.id;
           });
 
-          this.setState({books});
-        })
-        .catch(err => {
-          console.error('Error fetching search result', err);
+          return bookOnShelves.length > 0 ? bookOnShelves[0] : entity;
         });
-    }
+
+        this.setState({books});
+      })
+      .catch(err => {
+        console.error('Error fetching search result', err);
+      });
   };
 
   render() {
@@ -50,7 +63,7 @@ class SearchBooks extends Component {
             <input
               type="text"
               placeholder="Search by title or author"
-              onChange={(event) => this.updateQuery(event.target.value)}
+              onChange={(event) => this.checkQuery(event.target.value)}
             />
           </div>
         </div>

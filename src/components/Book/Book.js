@@ -7,12 +7,12 @@ class Book extends Component {
     onShelfChange: PropTypes.func.isRequired
   };
 
-  state = {
-
-  };
-
+  /**
+   * @description Call change shelf callback
+   * @param {object} book - book that we should update
+   * @param {string} shelf - new shelf
+   */
   shelfChange(book, shelf) {
-    //console.log(this.props, this.props.onShelfChange, book, shelf);
     this.props.onShelfChange(book, shelf);
   }
 

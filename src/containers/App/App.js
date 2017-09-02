@@ -21,6 +21,11 @@ class App extends Component {
       });
   };
 
+  /**
+   * @description Change shelf
+   * @param {object} book - book that we should update
+   * @param {string} shelf - new shelf
+   */
   shelfChange(book, shelf) {
     BooksAPI
       .update(book, shelf)
