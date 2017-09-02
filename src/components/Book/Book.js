@@ -3,11 +3,17 @@ import PropTypes from 'prop-types';
 
 class Book extends Component {
   static propTypes = {
-    book: PropTypes.object.isRequired
+    book: PropTypes.object.isRequired,
+    onShelfChange: PropTypes.func.isRequired
+  };
+
+  state = {
+
   };
 
   shelfChange(book, shelf) {
-
+    //console.log(this.props, this.props.onShelfChange, book, shelf);
+    this.props.onShelfChange(book, shelf);
   }
 
   render() {

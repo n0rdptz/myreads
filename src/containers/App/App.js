@@ -21,17 +21,46 @@ class App extends Component {
       });
   };
 
+  shelfChange(book, shelf) {
+    BooksAPI
+      .update(book, shelf)
+      .then(() => {
+        const isBookOnShelves = this.state.books.filter(item => item.id === book.id).length;
+
+        if (isBookOnShelves > 0) {
+          const books = this.state.books.map(item => {
+            if (item.id === book.id) {
+              item.shelf = shelf;
+              return item;
+            }
+
+            return item;
+          });
+
+          this.setState({books});
+        } else {
+          book.shelf = shelf;
+
+          this.setState(state => ({
+            books: state.books.concat([book])
+          }));
+        }
+      });
+  };
+
   render() {
     return (
       <div className="app">
         <Route path="/" exact render={() => (
           <ListBooks
             books={this.state.books}
+            onShelfChange={this.shelfChange.bind(this)}
           />
         )} />
         <Route path="/search" exact render={(history) => (
           <SearchBooks
             books={this.state.books}
+            onShelfChange={this.shelfChange.bind(this)}
           />
         )} />
       </div>

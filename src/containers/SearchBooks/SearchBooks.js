@@ -11,7 +11,8 @@ class SearchBooks extends Component {
   };
 
   static propTypes = {
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
+    onShelfChange: PropTypes.func.isRequired
   };
 
   updateQuery(q) {
@@ -60,6 +61,7 @@ class SearchBooks extends Component {
                 <li key={book.id}>
                   <Book
                     book={book}
+                    onShelfChange={this.props.onShelfChange}
                   />
                 </li>
               ))}

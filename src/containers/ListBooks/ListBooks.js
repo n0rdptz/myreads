@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom';
 class ListBooks extends Component {
   static propTypes = {
     books: PropTypes.array.isRequired,
+    onShelfChange: PropTypes.func.isRequired
   };
 
   render() {
@@ -25,16 +26,19 @@ class ListBooks extends Component {
           <Bookshelf
             title="Currently Reading"
             books={readingBooks}
+            onShelfChange={this.props.onShelfChange}
           />
 
           <Bookshelf
             title="Want to Read"
             books={toReadBooks}
+            onShelfChange={this.props.onShelfChange}
           />
 
           <Bookshelf
             title="Read"
             books={readBooks}
+            onShelfChange={this.props.onShelfChange}
           />
         </div>
 
