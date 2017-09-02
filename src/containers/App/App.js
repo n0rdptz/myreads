@@ -3,7 +3,7 @@ import '../../styles/App.css';
 import {Route} from 'react-router-dom';
 import ListBooks from '../ListBooks/ListBooks';
 import SearchBooks from '../SearchBooks/SearchBooks';
-import * as BooksAPI from '../../BooksAPI';
+import * as BooksAPI from '../../utils/BooksAPI';
 
 class App extends Component {
   state = {
@@ -15,6 +15,9 @@ class App extends Component {
       .getAll()
       .then(books => {
         this.setState({books});
+      })
+      .catch(err => {
+        console.error('Error fetching all books', err);
       });
   };
 
@@ -22,10 +25,14 @@ class App extends Component {
     return (
       <div className="app">
         <Route path="/" exact render={() => (
-          <ListBooks books={this.state.books}/>
+          <ListBooks
+            books={this.state.books}
+          />
         )} />
         <Route path="/search" exact render={(history) => (
-          <SearchBooks />
+          <SearchBooks
+            books={this.state.books}
+          />
         )} />
       </div>
     );

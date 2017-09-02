@@ -6,8 +6,13 @@ class Book extends Component {
     book: PropTypes.object.isRequired
   };
 
+  shelfChange(book, shelf) {
+
+  }
+
   render() {
     const book = this.props.book;
+    const shelf = book.shelf ? book.shelf : 'none';
 
     return (
       <div className="book">
@@ -17,7 +22,9 @@ class Book extends Component {
             style={{backgroundImage: `url(${book.imageLinks.thumbnail})`}}>
           </div>
           <div className="book-shelf-changer">
-            <select value={book.shelf}>
+            <select
+              value={shelf}
+              onChange={(event) => this.shelfChange(book, event.target.value)}>
               <option value="none" disabled>Move to...</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
@@ -28,8 +35,8 @@ class Book extends Component {
         </div>
         <div className="book-title">{book.title}</div>
         <div className="book-authors">
-          {book.authors.map(author => (
-            <div>{author}</div>
+          {book.authors && book.authors.map((author, index) => (
+            <div key={index}>{author}</div>
           ))}
         </div>
       </div>
