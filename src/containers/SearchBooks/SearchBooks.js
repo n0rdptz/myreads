@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as BooksAPI from '../../utils/BooksAPI';
 import appConfig from '../../configs/appConfig';
+import escapeRegExp from 'escape-string-regexp';
 
 class SearchBooks extends Component {
   state = {
@@ -21,8 +22,11 @@ class SearchBooks extends Component {
    */
   checkQuery(q) {
     const query = q.trim();
+    const match = new RegExp(escapeRegExp(query), 'i');
 
-    if (appConfig.searchTerms.includes(query)) {
+    const isCorrectTerm = appConfig.searchTerms.filter((term) => match.test(term));
+
+    if (isCorrectTerm.length > 0) {
       this.searchRequest(query);
     }
   };
