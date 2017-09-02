@@ -15,27 +15,26 @@ class ListBooks extends Component {
     const toReadBooks = books.filter(book => book.shelf === 'wantToRead');
     const readBooks = books.filter(book => book.shelf === 'read');
 
+    const shelves = [
+      {title: 'Currently Reading', books: readingBooks},
+      {title: 'Want to Read', books: toReadBooks},
+      {title: 'Read', books: readBooks}
+    ];
+
     return (
       <div className="list-books">
         <div className="list-books-title">
           <h1>MyReads</h1>
         </div>
         <div className="list-books-content">
-          <Bookshelf
-            title="Currently Reading"
-            books={readingBooks}
-            onShelfChange={this.props.onShelfChange}
-          />
-          <Bookshelf
-            title="Want to Read"
-            books={toReadBooks}
-            onShelfChange={this.props.onShelfChange}
-          />
-          <Bookshelf
-            title="Read"
-            books={readBooks}
-            onShelfChange={this.props.onShelfChange}
-          />
+          {shelves.map((shelf, index) => (
+            <Bookshelf
+              key={index}
+              title={shelf.title}
+              books={shelf.books}
+              onShelfChange={this.props.onShelfChange}
+            />
+          ))}
         </div>
         <div className="open-search">
           <Link to="/search">Add a book</Link>
